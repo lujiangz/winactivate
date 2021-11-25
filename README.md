@@ -10,7 +10,7 @@ If you explicitly want to use KMS38 activation, you can use the `/forcekms38` fl
 
 ## Compatibility
 
-This script is compatible with build 10240 and above. It will not work with ARM64 installations of Windows.
+This script is compatible with build 10240 and above.
 
 ## Troubleshooting
 
