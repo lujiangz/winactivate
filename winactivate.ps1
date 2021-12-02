@@ -2,7 +2,7 @@
 param (
     [Parameter()]
     [switch]
-    $ForceKms38,
+    $ForceKMS38,
     [Parameter()]
     [switch]
     $Headless
@@ -48,7 +48,7 @@ function Get-BuildNumber {
 
 }
 
-function Get-HwidProductKey {
+function Get-HWIDProductKey {
 
     [CmdletBinding()]
     param (
@@ -118,7 +118,7 @@ function Get-HwidProductKey {
 
 }
 
-function Get-Kms38ProductKey {
+function Get-KMS38ProductKey {
 
     [CmdletBinding()]
     param (
@@ -282,13 +282,13 @@ if ($Build -lt 10240) {
 }
 
 $SkuId = Get-SKU
-if ($ForceKms38.IsPresent) {
-    $ProductKey = Get-Kms38ProductKey -SkuId $SkuId -Build $Build
+if ($ForceKMS38.IsPresent) {
+    $ProductKey = Get-KMS38ProductKey -SkuId $SkuId -Build $Build
 } else {
-    $ProductKey = Get-HwidProductKey -SkuId $SkuId -Build $Build
+    $ProductKey = Get-HWIDProductKey -SkuId $SkuId -Build $Build
 
     if ($null -eq $ProductKey) {
-        $ProductKey = Get-Kms38ProductKey -SkuId $SkuId -Build $Build
+        $ProductKey = Get-KMS38ProductKey -SkuId $SkuId -Build $Build
     }
 }
 
