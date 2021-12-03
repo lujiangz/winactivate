@@ -5,7 +5,10 @@ param (
     $ForceKMS38,
     [Parameter()]
     [switch]
-    $Headless
+    $Headless,
+    [Parameter()]
+    [string]
+    $ProductKey
 )
 
 function Exit-Script {
@@ -281,14 +284,16 @@ if ($Build -lt 10240) {
     Exit-Script -ExitCode 1
 }
 
-$SkuId = Get-SKU
-if ($ForceKMS38.IsPresent) {
-    $ProductKey = Get-KMS38ProductKey -SkuId $SkuId -Build $Build
-} else {
-    $ProductKey = Get-HWIDProductKey -SkuId $SkuId -Build $Build
-
-    if ($null -eq $ProductKey) {
+if ($ProductKey.Length -eq 0) {
+    $SkuId = Get-SKU
+    if ($ForceKMS38.IsPresent) {
         $ProductKey = Get-KMS38ProductKey -SkuId $SkuId -Build $Build
+    } else {
+        $ProductKey = Get-HWIDProductKey -SkuId $SkuId -Build $Build
+
+        if ($null -eq $ProductKey) {
+            $ProductKey = Get-KMS38ProductKey -SkuId $SkuId -Build $Build
+        }
     }
 }
 
