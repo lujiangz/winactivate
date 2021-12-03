@@ -4,11 +4,15 @@ Easy-to-use Windows HWID/KMS38 Activation Script.
 
 ## Usage
 
-Run `winactivate.cmd` with administrative privileges.
+Run `winactivate.cmd` with administrative privileges, usually by right-clicking it and clicking on "Run as administrator".
 
-## Compatibility
+## Frequently Asked Questions
 
-This script is compatible with build 10240 and above.
+### How can I activate Windows 10 Enterprise LTSC 2022 using HWID?
+
+You can't. You'll first have to switch the edition to **Windows 10 IoT Enterprise LTSC 2022**. To do this with winactivate, run the following command:
+
+    winactivate.cmd -ProductKey QPM6N-7J2WJ-P88HH-P3YRH-YY74H
 
 ## Credits
 
