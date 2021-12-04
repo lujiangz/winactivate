@@ -1,5 +1,3 @@
-#Requires -RunAsAdministrator
-
 [CmdletBinding()]
 param (
     [Parameter()]
@@ -401,7 +399,6 @@ if (Test-KMS38ProductKey -ProductKey $ProductKey) {
 Write-Host 'Patching gatherosstate.exe...'
 $Process = Start-Process -FilePath 'rundll32.exe' -ArgumentList """$PSScriptRoot\slc.dll"",PatchGatherosstate" -PassThru -Wait
 if ($Process.ExitCode -ne 0) {
-    Write-Host $Process.ExitCode
     Write-Error 'Failed to patch gatherosstate.exe.'
     Exit-Script -ExitCode 1
 }
