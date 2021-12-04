@@ -258,10 +258,82 @@ function Refresh-LicenseStatus {
 
 }
 
+function Set-KeyManagementServiceMachine {
+
+    process {
+        Invoke-CimMethod -Arguments @{'MachineName' = '127.0.0.1'} -MethodName 'SetKeyManagementServiceMachine' -Query 'SELECT * FROM SoftwareLicensingProduct WHERE ApplicationID = ''55c92734-d682-4d71-983e-d6ec3f16059f'' AND PartialProductKey IS NOT NULL' -ErrorAction Stop | Out-Null
+    }
+
+}
+
 function Test-AdministrativePrivileges {
 
     process {
         ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    }
+
+}
+
+function Test-KMS38ProductKey {
+
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, Position = 0)]
+        [string]
+        $ProductKey
+    )
+
+    process {
+        $KMS38ProductKeys = @(
+            '2F77B-TNFGY-69QQF-B8YKP-D69TJ'
+            '2HXDN-KRXHB-GPYC7-YCKFJ-7FVDG'
+            '2WH4N-8QGBV-H22JP-CT43Q-MDWWJ'
+            '3KHY7-WNT83-DGQKR-F7HPR-844BM'
+            '44RPN-FTY23-9VTTB-MP9BX-T84FV'
+            '67KN8-4FYJW-2487Q-MQ2J7-4C4RG'
+            '6N379-GGTMK-23C6M-XVVTC-CKFRQ'
+            '6NMRW-2C8FM-D24W7-TQWMY-CWH2D'
+            '6TP4R-GNPTD-KYYHQ-7B7DP-J447Y'
+            '7HNRX-D7KGG-3K4RQ-4WPJ4-YTDFH'
+            '7NBT4-WGBQX-MP4H7-QXFF8-YP3KX'
+            '92NFX-8DJQP-P6BBQ-THF9C-7CG2H'
+            '92NFX-8DJQP-P6BBQ-THF9C-7CG2H'
+            '9FNHH-K3HBT-3W4TD-6383H-6XYWF'
+            'CB7KF-BWN84-R7R2Y-793K2-8XDDG'
+            'DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ'
+            'DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4'
+            'FDNH6-VW9RW-BXPJ7-4XTYG-239TB'
+            'JCKRF-N37P4-C2D82-9YXRT-4M63B'
+            'M7XTQ-FN8P6-TTKYV-9D4CC-J462D'
+            'M7XTQ-FN8P6-TTKYV-9D4CC-J462D'
+            'MH37W-N47XK-V7XM9-C7227-GCQG9'
+            'N2KJX-J94YW-TQVFB-DG9YT-724CC'
+            'N69G4-B89J2-4G8F4-WWYCC-J464C'
+            'NPPR9-FWDCX-D2C8J-H872K-2YT43'
+            'NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J'
+            'NW6C2-QMPVW-D7KKK-3GKT6-VCFB2'
+            'PTXN8-JFHJM-4WC78-MPCBR-9W4KR'
+            'PVMJN-6DFY6-9CCP6-7BKTT-D3WVR'
+            'QFFDN-GRT3P-VKWWX-X7T3R-8B639'
+            'QFND9-D3Y9C-J3KKY-6RPVP-2DPYV'
+            'TX9XD-98N7V-6WMQ6-BX7FG-H8Q99'
+            'VDYBN-27WPP-V4HQT-9VMD4-VMK7H'
+            'VP34G-4NPPG-79JTQ-864T4-R3MQX'
+            'W269N-WFGWX-YVC9B-4J6C9-T83GX'
+            'WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY'
+            'WMDGN-G9PQG-XVVXX-R3X43-63DFG'
+            'WNMTR-4C88C-JK8YV-HQ7T2-76DF9'
+            'WVDHN-86M7X-466P6-VHXV7-YY726'
+            'WX4NM-KYWYW-QJJR4-XV3QB-6VM33'
+            'YVWGF-BXNMC-HTQYQ-CPQ99-66QFC'
+            'YYVX9-NTFWV-6MDM3-9PT4T-4M68B'
+        )
+
+        if ($KMS38ProductKeys.Contains($ProductKey)) {
+            $true
+        }
+
+        $false
     }
 
 }
@@ -313,6 +385,18 @@ try {
 }
 Write-Host 'Done.' -ForegroundColor Magenta
 Write-Host
+
+if (Test-KMS38ProductKey -ProductKey $ProductKey) {
+    Write-Host 'Setting key management service machine to 127.0.0.1...'
+    try {
+        Set-KeyManagementServiceMachine
+    } catch {
+        Write-Error $_
+        Exit-Script -ExitCode 1
+    }
+    Write-Host 'Done.' -ForegroundColor Magenta
+    Write-Host
+}
 
 Write-Host 'Patching gatherosstate.exe...'
 $Process = Start-Process -FilePath 'rundll32.exe' -ArgumentList """$PSScriptRoot\slc.dll"",PatchGatherosstate" -PassThru -Wait
