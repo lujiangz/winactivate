@@ -64,8 +64,6 @@ function Get-HWIDProductKey {
     )
 
     process {
-        $ProductKey = $null
-
         $ProductKeys = @{
             4   = 'XGVPP-NMH47-7TTHJ-W3FW7-8HV2C'
             27  = '3V6Q6-NQXCX-V8YXR-9QCYV-QPFCT'
@@ -88,7 +86,7 @@ function Get-HWIDProductKey {
         }
 
         if ($null -ne $ProductKeys[$SkuId]) {
-            $ProductKey = $ProductKeys[$SkuId]
+            $ProductKeys[$SkuId]
         }
 
         switch ($Build) {
@@ -113,10 +111,8 @@ function Get-HWIDProductKey {
         }
 
         if ($null -ne $ProductKeys[$SkuId]) {
-            $ProductKey = $ProductKeys[$SkuId]
+            $ProductKeys[$SkuId]
         }
-
-        $ProductKey
     }
 
 }
@@ -134,8 +130,6 @@ function Get-KMS38ProductKey {
     )
 
     process {
-        $ProductKey = $null
-
         $ProductKeys = @{
             4   = 'NPPR9-FWDCX-D2C8J-H872K-2YT43'
             27  = 'DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4'
@@ -157,7 +151,7 @@ function Get-KMS38ProductKey {
         }
 
         if ($null -ne $ProductKeys[$SkuId]) {
-            $ProductKey = $ProductKeys[$SkuId]
+            $ProductKeys[$SkuId]
         }
 
         switch ($Build) {
@@ -209,10 +203,8 @@ function Get-KMS38ProductKey {
         }
 
         if ($null -ne $ProductKeys[$SkuId]) {
-            $ProductKey = $ProductKeys[$SkuId]
+            $ProductKeys[$SkuId]
         }
-
-        $ProductKey
     }
 
 }
@@ -363,7 +355,7 @@ if ($ProductKey.Length -eq 0) {
     } else {
         $ProductKey = Get-HWIDProductKey -SkuId $SkuId -Build $Build
 
-        if ($null -eq $ProductKey) {
+        if ($ProductKey.Length -eq 0) {
             $ProductKey = Get-KMS38ProductKey -SkuId $SkuId -Build $Build
         }
     }
