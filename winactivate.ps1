@@ -11,6 +11,14 @@ param (
     $ProductKey
 )
 
+function Activate-Windows {
+
+    process {
+        Invoke-CimMethod -MethodName 'Activate' -Query 'SELECT * FROM SoftwareLicensingProduct WHERE ApplicationID = ''55c92734-d682-4d71-983e-d6ec3f16059f'' AND PartialProductKey IS NOT NULL' -ErrorAction Stop | Out-Null
+    }
+
+}
+
 function Exit-Script {
 
     [CmdletBinding()]
@@ -248,14 +256,6 @@ function Install-ProductKey {
 
 }
 
-function Refresh-LicenseStatus {
-
-    process {
-        Invoke-CimMethod -MethodName 'RefreshLicenseStatus' -Query 'SELECT * FROM SoftwareLicensingService' -ErrorAction Stop | Out-Null
-    }
-
-}
-
 function Set-KeyManagementServiceMachine {
 
     process {
@@ -424,12 +424,14 @@ if ($Process.ExitCode -ne 0) {
 Write-Host 'Done.' -ForegroundColor Magenta
 Write-Host
 
-Write-Host 'Refreshing license status...'
-try {
-    Refresh-LicenseStatus
-} catch {
-    Write-Error $_
-    Exit-Script -ExitCode 1
+Write-Host 'Activating Windows...'
+if (!(Test-KMS38ProductKey -ProductKey $ProductKey)) {
+    try {
+        Activate-Windows
+    } catch {
+        Write-Error $_
+        Exit-Script -ExitCode 1
+    }
 }
 $LicenseStatus = Get-LicenseStatus
 if ($LicenseStatus -ne 1) {
