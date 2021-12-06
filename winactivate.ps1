@@ -363,7 +363,7 @@ if ($ProductKey.Length -eq 0) {
     } else {
         $ProductKey = Get-HWIDProductKey -SkuId $SkuId -Build $Build
 
-        if ($null -eq $ProductKey) {
+        if ($ProductKey.Length -eq 0) {
             $ProductKey = Get-KMS38ProductKey -SkuId $SkuId -Build $Build
         }
     }
