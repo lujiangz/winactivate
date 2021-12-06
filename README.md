@@ -4,23 +4,15 @@ Easy-to-use Windows HWID/KMS38 Activation Script.
 
 ## Usage
 
-Run the script as an administrator. That's it. Your copy of Windows should be activated.
+Run `winactivate.cmd` with administrative privileges, usually by right-clicking it and clicking on "Run as administrator".
 
-If you explicitly want to use KMS38 activation, you can use the `/forcekms38` flag.
+## Frequently Asked Questions
 
-## Compatibility
+### How can I activate Windows 10 Enterprise LTSC 2021 using HWID?
 
-This script is compatible with build 10240 and above.
+You can't. You'll first have to switch the edition to **Windows 10 IoT Enterprise LTSC 2021**. To do this with winactivate, run the following command:
 
-## Troubleshooting
-
-### Script doesn't detect Administrator privileges
-
-Sometimes, it can happen that even though you have Administrator privileges, the script doesn't detect it. In this case, open a command prompt as administrator, navigate to the folder containing the script, and run the following command:
-
-    winactivate.cmd /skipadmincheck
-
-This skips the detection of Administrator privileges.
+    winactivate.cmd -ProductKey QPM6N-7J2WJ-P88HH-P3YRH-YY74H
 
 ## Credits
 
