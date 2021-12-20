@@ -356,6 +356,18 @@ if ($Build -lt 10240) {
     Exit-Script -ExitCode 1
 }
 
+$RequiredFiles = @(
+    'gatherosstate.exe'
+    'slc.dll'
+)
+
+foreach ($RequiredFile in $RequiredFiles) {
+    if (!(Test-Path -Path "$PSScriptRoot\$RequiredFile")) {
+        Write-Error "This script requires $RequiredFile to be present in the same directory as this script."
+        Exit-Script -ExitCode 1
+    }
+}
+
 if ($ProductKey.Length -eq 0) {
     $SkuId = Get-SKU
     if ($ForceKMS38.IsPresent) {
