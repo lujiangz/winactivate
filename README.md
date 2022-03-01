@@ -4,7 +4,7 @@ Easy-to-use Windows HWID/KMS38 Activation Script.
 
 ## Usage
 
-Run `winactivate.cmd` with administrative privileges, usually by right-clicking it and clicking on "Run as administrator".
+Run 'winactivate.cmd' with administrative privileges, usually by right-clicking it and clicking on "Run as administrator".
 
 ## Frequently Asked Questions
 
@@ -16,7 +16,7 @@ You can't. You'll first have to switch the edition to **Windows 10 IoT Enterpris
 
 ## Credits
 
-- [mspaintmsi](https://github.com/mspaintmsi) for the rewritten version of `slc.dll`
+- [slc.dll](https://github.com/Gamers-Against-Weed/Integrated_Patcher_3)
 
 ## License
 
